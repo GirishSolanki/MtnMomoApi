@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MTNMOMOApiIntegration.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +9,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<MTNMOMOApiIntegration.Database.MtnMomoApiDataContext>
-               (option => option.UseSqlServer(builder.Configuration.GetConnectionString("MtnMomoApi").ToString(), opts => opts.MigrationsAssembly("MTNMOMOApiIntegration.Database"))
+builder.Services.AddDbContext<MtnMomoApiDataContext>
+               (option => option.UseSqlServer(builder.Configuration.GetConnectionString("MtnMomoApi").ToString())
                .EnableSensitiveDataLogging());
 
 var app = builder.Build();
