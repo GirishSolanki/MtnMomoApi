@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MTNMOMOApiIntegration.Model;
 
 namespace MTNMOMOApiIntegration.Database
 {
@@ -8,5 +9,7 @@ namespace MTNMOMOApiIntegration.Database
         {
 
         }
+
+        public DbSet<MtnMomoApiRequest> MtnMomoApiRequest { get; set; }
     }
 }
