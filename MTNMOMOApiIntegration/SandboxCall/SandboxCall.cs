@@ -25,9 +25,23 @@ namespace MTNMOMOApiIntegration.SandboxCall
                 client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", requestModel.OcpApimSubscriptionKey);
             }
 
+            if (!string.IsNullOrEmpty(requestModel.XTargetEnvironment))
+            {
+                client.DefaultRequestHeaders.Add("X-Target-Environment", requestModel.XTargetEnvironment);
+            }
+
             if (!string.IsNullOrEmpty(requestModel.AuthenticationType))
             {
-                client.DefaultRequestHeaders.Add("Authorization", requestModel.AuthenticationType + " " + this.Base64Encode(requestModel.AuthenticationUserName + ":" + requestModel.AuthenticationPassword));
+                if (requestModel.AuthenticationType == "Basic")
+                {
+                    client.DefaultRequestHeaders.Add("Authorization", requestModel.AuthenticationType + " " + this.Base64Encode(requestModel.AuthenticationUserName + ":" + requestModel.AuthenticationPassword));
+                }
+
+                if (requestModel.AuthenticationType == "Bearer")
+                {
+                    client.DefaultRequestHeaders.Add("Authorization", requestModel.AuthenticationType + " " + requestModel.Token);
+                }
+
             }
 
             var uri = apiUrl + requestModel.apiUrl;

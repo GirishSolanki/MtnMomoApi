@@ -63,7 +63,20 @@ namespace MTNMOMOApiIntegration.Controllers
             var genericResponse = new GenericResponse<dynamic>(httpResponseMessage.StatusCode.ToString(), httpResponseMessage.StatusCode.ToString(), httpResponseMessage.Content.ReadAsStringAsync().Result, httpResponseMessage.IsSuccessStatusCode);
             this._mtnMomoApiRepository.SaveResponse(new ResponseModel.Response(request.RequestId, JsonSerializer.Serialize(genericResponse)));
             return Ok(genericResponse);
+        }
 
+        [HttpPost("request-to-pay")]
+        public IActionResult RequestToPay(RequestModel.RequestModel requestModel)
+        {
+            requestModel.apiUrl = "/collection/v1_0/requesttopay";
+            requestModel.AuthenticationType = "Bearer";
+            requestModel.currency = "EUR";
+            requestModel.externalId = new Random().Next().ToString();
+            var request = this._mtnMomoApiRepository.SaveRequest(new ResponseModel.Request(JsonSerializer.Serialize(requestModel)));
+            HttpResponseMessage httpResponseMessage = new SandboxCall.SandboxCall().CallSandBox(requestModel, HttpMethod.Post).Result;
+            var genericResponse = new GenericResponse<dynamic>(httpResponseMessage.StatusCode.ToString(), httpResponseMessage.StatusCode.ToString(), httpResponseMessage.Content.ReadAsStringAsync().Result, httpResponseMessage.IsSuccessStatusCode);
+            this._mtnMomoApiRepository.SaveResponse(new ResponseModel.Response(request.RequestId, JsonSerializer.Serialize(genericResponse)));
+            return Ok(genericResponse);
         }
     }
 }
