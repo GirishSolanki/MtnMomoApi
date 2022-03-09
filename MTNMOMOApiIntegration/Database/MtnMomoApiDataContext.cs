@@ -11,5 +11,7 @@ namespace MTNMOMOApiIntegration.Database
         }
 
         public DbSet<MtnMomoApiRequest> MtnMomoApiRequest { get; set; }
+        public DbSet<ResponseModel.Request> Request { get; set; }
+        public DbSet<ResponseModel.Response> Response { get; set; }
     }
 }

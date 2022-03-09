@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MTNMOMOApiIntegration.Database;
+using MTNMOMOApiIntegration.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MtnMomoApiDataContext>
                (option => option.UseSqlServer(builder.Configuration.GetConnectionString("MtnMomoApi").ToString())
                .EnableSensitiveDataLogging());
+builder.Services.AddTransient<IMtnMomoApiRepository, MtnMomoApiRepository>();
 
 var app = builder.Build();
 
